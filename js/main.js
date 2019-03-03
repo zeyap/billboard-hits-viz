@@ -14,6 +14,7 @@ d3.csv('../static/Hot Stuff.csv')
         dataByYear[year] = dataByYear[year]||[];
         dataByYear[year].push(elem);
 
+        dataByPerformers[elem.Performer] = dataByPerformers[elem.Performer]||{};
         dataByPerformers[elem.Performer][year] = dataByPerformers[elem.Performer][year]||[];
         dataByPerformers[elem.Performer][year].push(elem);
     });
@@ -28,7 +29,6 @@ d3.csv('../static/Hot Stuff.csv')
     console.log(dataByPerformers)
 
     console.log(dataBy5Years)
-    
 
 })
 
