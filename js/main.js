@@ -10,11 +10,11 @@ d3.csv('../static/Hot Stuff.csv')
     //find min year & organize data by performer
     data.forEach(elem=>{
         let year = parseInt(elem.WeekID.split('/')[2]);
-        minYear = Math.min(latestYear, year);
+        minYear = Math.min(minYear, year);
         dataByYear[year] = dataByYear[year]||[];
         dataByYear[year].push(elem);
 
-        dataByPerformers[elem.Performer] = dataByPerformers[elem.Performer]||{};
+        dataByPerformers[elem.Performer] = dataByPerformers[elem.Performer]||[];
         dataByPerformers[elem.Performer][year] = dataByPerformers[elem.Performer][year]||[];
         dataByPerformers[elem.Performer][year].push(elem);
     });
