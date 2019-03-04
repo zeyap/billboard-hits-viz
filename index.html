@@ -21,6 +21,10 @@
 
     </style>
     <body>
+      <h2>
+
+      </h2>
+
 
       <h2>
       Top Artists for Every 5 Years (1958-2019)
@@ -151,7 +155,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         })
         // console.log(favArtistsByWeek);
 
-        const colors = ['#a33735','#f0924a','#e19ca2','#cc3f60'];
+        const colors = ['#5fad4c','#ead38c','#b302e0','#0aa5ff', '#ffff08','#ff08d9','#c45a21','#336684', '#32ff00', '#ff7f00 ', '#ff0000', '#ffa8ca', '#ffa8ca'];
         // const colors=['#C85AB4','#0D24DE','#24D3ED','#E5B0D9'];
 
         favArtistsByWeek.forEach((d,WeekID) => {
@@ -213,7 +217,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
             .attr ("cx", cx)
             .attr("cy", cy)
             .attr("r", YScale(songWeekNum/2))
-            .attr('opacity',songWeekNum*0.03)
+            .attr('opacity',0.7)
             .style("fill",colors[WeekID%colors.length])
             if(songWeekNum >= 26||isTop3[songName]) {
             text = lower.append('text')
