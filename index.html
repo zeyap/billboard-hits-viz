@@ -134,20 +134,23 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         })
         console.log(favArtistsByWeek);
 
+        const colors = ['#a33735','#f0924a','#e19ca2','#cc3f60'];
+        // const colors=['#C85AB4','#0D24DE','#24D3ED','#E5B0D9'];
+
         favArtistsByWeek.forEach((d,WeekID) => {
           let cx = margin.left+XScale(WeekID)+ (WGraph/24);
-          for(let i=0;i<d.weeksNum;i++){
-            if(i%5===0){
-              let dot = lower.append("circle")
-              .attr("cx", cx)
-              .attr("cy", margin.top+YScale(i))
-              .attr("r", 2)
-              .style("fill", "red")
-              .attr('opacity',0.00);
+        //   for(let i=0;i<d.weeksNum;i++){
+        //     if(i%5===0){
+        //       let dot = lower.append("circle")
+        //       .attr("cx", cx)
+        //       .attr("cy", margin.top+YScale(i))
+        //       .attr("r", 2)
+        //       .style("fill", "red")
+        //       .attr('opacity',0.00);
 
-            }
+        //     }
 
-          }
+        //   }
 
         // artistsPics.forEach((d) =>{
         let img = svg.append("image")
@@ -180,7 +183,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           isTop3[sortedSongs[0].name]=1
           //isTop3[sortedSongs[1].name]=2
           //isTop3[sortedSongs[2].name]=3
-
+          
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
             //const artistScale = d3.scaleOrdinal(d3.schemeCategory20);
@@ -193,8 +196,8 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
             .attr ("cx", cx)
             .attr("cy", cy)
             .attr("r", YScale(songWeekNum/2))
-            .attr('opacity',0.2)
-            .style("fill","red")
+            .attr('opacity',songWeekNum*0.03)
+            .style("fill",colors[WeekID%colors.length])
             if(songWeekNum >= 26||isTop3[songName]) {
             text = lower.append('text')
             .attr ('x', cx)
