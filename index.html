@@ -13,7 +13,8 @@
     <script>
 
         let svg = d3.select("svg#graph");
-        
+
+        svg.attr("width",  window.innerWidth);
         window.onresize = ()=>{
             svg.attr("width",  window.innerWidth);
         }
@@ -72,13 +73,17 @@
             //   .range ()
 
             const XScale = d3.scaleLinear()
-              .domain ([minPeriodId, maxPeriodId])
+              .domain ([minPeriodId, maxPeriodId+1])
               .range ([0,WGraph]);
 
 
         //draw axes for graph 1
         var left_x_axis = d3.axisTop(XScale)
         .ticks(15)
+        .tickFormat(id=>{
+          let startyear = minYear+5*id;
+          return startyear
+        });
 
         var left_y_axis = d3.axisLeft(YScale)
         .ticks(maxPeriodId-minPeriodId+1)
@@ -121,12 +126,61 @@
         console.log(favArtistsByWeek);
 
         favArtistsByWeek.forEach((d,WeekID) => {
+          let cx = margin.left+XScale(WeekID)+ (WGraph/24);
           for(let i=0;i<d.weeksNum;i++){
-            dot = lower.append("circle")
-            .attr("cx", margin.left+XScale(WeekID))
-            .attr("cy", margin.top+YScale(i))
-            .attr("r", 1)
-            .style("fill", "red");
+            if(i%5===0){
+              let dot = lower.append("circle")
+              .attr("cx", cx)
+              .attr("cy", margin.top+YScale(i))
+              .attr("r", 2)
+              .style("fill", "red")
+              .attr('opacity',0.00);
+
+            }
+
+          }
+
+          let totalWeekNum=0;
+
+          //tops
+          let sortedSongs=[];
+          for(let songName in d.songs){
+            sortedSongs.push({name:songName,count:d.songs[songName]});
+          }
+          sortedSongs.sort((a,b)=>b.count-a.count);
+          let isTop3={};
+          isTop3[sortedSongs[0].name]=1
+          //isTop3[sortedSongs[1].name]=2
+          //isTop3[sortedSongs[2].name]=3
+
+          for(let songName in d.songs ){
+            let songWeekNum = d.songs[songName]
+            //const artistScale = d3.scaleOrdinal(d3.schemeCategory20);
+            // if(songWeekNum<10)continue;
+            // console.log(songWeekNum)
+            let cy=margin.top+YScale(totalWeekNum+songWeekNum/2)
+            //let artistcolor = artistScale(name);
+            //console.log(artistScale)
+            let dot2 = lower.append("circle")
+            .attr ("cx", cx)
+            .attr("cy", cy)
+            .attr("r", YScale(songWeekNum/2))
+            .attr('opacity',0.2)
+            .style("fill","red")
+            if(songWeekNum >= 26||isTop3[songName]) {
+            text = lower.append('text')
+            .attr ('x', cx)
+            .attr ('y', cy)
+            .text (songName)
+            .attr ('alignment-baseline', 'central')
+            .attr('style', 'text-anchor:middle')
+            .attr ("font-size", "14px")
+            .attr ("fill", "black")
+            .attr ("font-family", "helvetica");
+          }
+            totalWeekNum+=songWeekNum
+
+
           }
 
 
