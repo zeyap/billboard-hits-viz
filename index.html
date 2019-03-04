@@ -181,8 +181,8 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           sortedSongs.sort((a,b)=>b.count-a.count);
           let isTop3={};
           isTop3[sortedSongs[0].name]=1
-          //isTop3[sortedSongs[1].name]=2
-          //isTop3[sortedSongs[2].name]=3
+          isTop3[sortedSongs[1].name]=2
+          isTop3[sortedSongs[2].name]=3
 
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
