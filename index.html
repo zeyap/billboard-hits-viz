@@ -91,7 +91,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         .ticks(15)
         .tickFormat(id=>{
           let startyear = minYear+5*id;
-          return startyear
+          return startyear>latestYear?latestYear:startyear
         });
 
         var left_y_axis = d3.axisLeft(YScale)
@@ -183,7 +183,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           isTop3[sortedSongs[0].name]=1
           //isTop3[sortedSongs[1].name]=2
           //isTop3[sortedSongs[2].name]=3
-          
+
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
             //const artistScale = d3.scaleOrdinal(d3.schemeCategory20);
