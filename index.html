@@ -8,7 +8,12 @@
     </style>
     <body>
 
-      <svg id="graph" height=2000 width="1000"> </svg>
+      <svg id="graph" height=1500 width="1000">
+
+
+      </svg>
+
+      <defs>
 
     <script>
 
@@ -26,9 +31,13 @@
         let HGraph = height - margin.top - margin.bottom;
 
         let lower = svg.append('g')
-        .attr('transform','translate('+margin.left+','+(HGraph/2)+')');
-
+        .attr('transform','translate('+margin.left+','+100+')');
+        // .attr('transform','translate('+margin.left+','+(HGraph/2)+')');
 //load the data
+
+
+artistsPics=["connie-francis.png","beatles.jpg","james-brown.jpg","Gladys-knight.png","donna-summer.jpg","madonna.jpg","Michael-bolton.jpg","toni-braxton.jpg","Faith-Hill.jpg", "rascal-flatts.jpg","taylor-swift.jpg", "drake.jpg","drake.jpg"];
+artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "Donna Summer", "Madonna", "Michael Bolton", "Toni Braxton", "Faith Hill", "Rascal Flatts", "Taylor Swift", "Drake", "Drake"];
 
         d3.csv('../static/Hot Stuff.csv')
         .then(data=>{
@@ -82,7 +91,7 @@
         .ticks(15)
         .tickFormat(id=>{
           let startyear = minYear+5*id;
-          return startyear
+          return startyear>latestYear?latestYear:startyear
         });
 
         var left_y_axis = d3.axisLeft(YScale)
@@ -143,6 +152,25 @@
 
         //   }
 
+        // artistsPics.forEach((d) =>{
+        let img = svg.append("image")
+          .attr("xlink:href","/static/photos/"+ artistsPics[WeekID])
+          .attr('x',0)
+          .attr('y',0)
+          .attr('height',50)
+          .attr('width',50)
+          .attr('transform','translate('+cx+','+10+')')
+          svg.append("text")
+          .text(artistNames[WeekID])
+          .attr('transform','translate('+(cx+margin.left)+','+70+')')
+          .attr ('alignment-baseline', 'central')
+          .attr('style', 'text-anchor:middle')
+          .attr ("font-size", "12px")
+          .attr ("fill", "black")
+          .attr ("font-family", "helvetica");
+        // })
+
+
           let totalWeekNum=0;
 
           //tops
@@ -155,7 +183,7 @@
           isTop3[sortedSongs[0].name]=1
           //isTop3[sortedSongs[1].name]=2
           //isTop3[sortedSongs[2].name]=3
-          
+
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
             //const artistScale = d3.scaleOrdinal(d3.schemeCategory20);
@@ -177,7 +205,7 @@
             .text (songName)
             .attr ('alignment-baseline', 'central')
             .attr('style', 'text-anchor:middle')
-            .attr ("font-size", "14px")
+            .attr ("font-size", songWeekNum/3.5)
             .attr ("fill", "black")
             .attr ("font-family", "helvetica");
           }
@@ -192,11 +220,6 @@
 
 
         })
-
-
-
-
-
 
 
         </script>
