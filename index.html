@@ -5,12 +5,29 @@
     </head>
     <style>
 
+    h2{
+      font-family: helvetica;
+      display: inline-block;
+      transform: translateX(-50%);
+      position: absolute;
+      left:50%;
+    }
+
+    svg{
+      position: absolute;
+      top: 100px;
+    }
+
+
     </style>
     <body>
 
+      <h2>
+      Top Artists for Every 5 Years (1958-2019)
+      Based on Number of Weeks on the Billboard Top 100
+    </h2>
+
       <svg id="graph" height=1500 width="1000">
-
-
       </svg>
 
       <defs>
@@ -211,16 +228,12 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           }
             totalWeekNum+=songWeekNum
 
-
           }
 
-
-
         })
 
 
         })
-
 
         </script>
     </body>
