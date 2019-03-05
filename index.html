@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://d3js.org/d3.v5.min.js"></script>
+        
     </head>
     <style>
 
-    h2{
-      font-family: helvetica;
-      display: inline-block;
-      transform: translateX(-50%);
-      position: absolute;
-      left:50%;
-    }
+        h2{
+            font-family: helvetica;
+            display: inline-block;
+            transform: translateX(-50%);
+            position: absolute;
+            left:50%;
+        }
 
-    svg{
-      position: absolute;
-      top: 100px;
-    }
+        svg{
+            position: absolute;
+            top: 100px;
+        }
 
 
     </style>
     <body>
 
-      <h2>
+    <h2>
       Top Artists for Every 5 Years (1958-2019)
       Based on Number of Weeks on the Billboard Top 100
     </h2>
@@ -31,6 +31,7 @@
       </svg>
 
       <defs>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <script>
 
@@ -168,8 +169,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         //     }
 
         //   }
-
-        // artistsPics.forEach((d) =>{
+        
         let img = svg.append("image")
           .attr("xlink:href","/static/photos/"+ artistsPics[WeekID])
           .attr('x',0)
@@ -185,8 +185,6 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           .attr ("font-size", "12px")
           .attr ("fill", "black")
           .attr ("font-family", "helvetica");
-        // })
-
 
           let totalWeekNum=0;
 
@@ -198,8 +196,8 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           sortedSongs.sort((a,b)=>b.count-a.count);
           let isTop3={};
           isTop3[sortedSongs[0].name]=1
-          isTop3[sortedSongs[1].name]=2
-          isTop3[sortedSongs[2].name]=3
+          // isTop3[sortedSongs[1].name]=2
+          // isTop3[sortedSongs[2].name]=3
 
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
@@ -216,15 +214,19 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
             .attr('opacity',songWeekNum*0.03)
             .style("fill",colors[WeekID%colors.length])
             if(songWeekNum >= 26||isTop3[songName]) {
-            text = lower.append('text')
+              let wordlength = songName.length;
+              const lineLength = 10;
+              const lineNum = Math.ceil(wordlength/lineLength);
+            let text = lower.append('text')
+            .text(songName)
             .attr ('x', cx)
             .attr ('y', cy)
-            .text (songName)
             .attr ('alignment-baseline', 'central')
             .attr('style', 'text-anchor:middle')
-            .attr ("font-size", songWeekNum/3.5)
+            .attr ("font-size", 14)
             .attr ("fill", "black")
             .attr ("font-family", "helvetica");
+            
           }
             totalWeekNum+=songWeekNum
 
