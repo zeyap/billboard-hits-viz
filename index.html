@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     </head>
     <style>
 
         h2{
-            font-family: helvetica;
+            font-family: 'Montserrat', sans-serif;
             display: inline-block;
             transform: translateX(-50%);
             position: absolute;
             left:50%;
+            color:white;
+        }
+
+        text{
+          color:white;
+          font-family: 'Montserrat', sans-serif
+        }
+
+        .axis line {
+            stroke: white;
+            /* opacity: 0.7; */
+        }
+
+        .axis path {
+            stroke-width: 0;
         }
 
         svg{
             position: absolute;
             top: 100px;
+        }
+
+        body{
+          background: black
+        }
+
+        .textcolor{
+          color:white
         }
 
 
@@ -53,7 +76,7 @@
         let HGraph = height - margin.top - margin.bottom;
 
         let lower = svg.append('g')
-        .attr('transform','translate('+margin.left+','+100+')');
+        .attr('transform','translate('+margin.left*1.5+','+100+')');
         // .attr('transform','translate('+margin.left+','+(HGraph/2)+')');
 //load the data
 
@@ -114,16 +137,23 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         .tickFormat(id=>{
           let startyear = minYear+5*id;
           return startyear>latestYear?latestYear:startyear
-        });
+        }).tickSize(0,0);
 
         var left_y_axis = d3.axisLeft(YScale)
         .ticks(maxPeriodId-minPeriodId+1)
+        .tickFormat(week=>{
+          if(week==0)return '# Weeks';
+          else return week
+        })
+        .tickSize(-15,0)
 
         lower.append("g")
         .attr("transform","translate("+ (margin.right) +","+ margin.top +")")
+        .attr('class','axis')
         .call(left_y_axis);
 
         lower.append("g")
+        .attr('class','axis')
         .attr("transform","translate("+ (margin.left) +","+ margin.top +")")
         .call(left_x_axis);
 
@@ -156,7 +186,9 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
         })
         // console.log(favArtistsByWeek);
 
-        const colors = ['#5fad4c','#ead38c','#b302e0','#0aa5ff', '#ffff08','#ff08d9','#c45a21','#336684', '#32ff00', '#ff7f00 ', '#ff0000', '#ffa8ca', '#ffa8ca'];
+        // const colors = ['#5fad4c','#ead38c','#b302e0','#0aa5ff', '#ffff08','#ff08d9','#c45a21','#336684', '#32ff00', '#ff7f00 ', '#ff0000', '#ffa8ca', '#ffa8ca'];
+        const colors = ['#24A28E','#2AA4AA','#3290B1','#397DB8', '#416ABF','#4957C6','#5D52CC','#7F5BD1', '#9F66D7', '#BD72DC', '#D97DE1', '#E589D7', '#E994C9'];
+
         // const colors=['#C85AB4','#0D24DE','#24D3ED','#E5B0D9'];
 
         favArtistsByWeek.forEach((d,WeekID) => {
@@ -186,9 +218,9 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           .attr('transform','translate('+(cx+margin.left)+','+70+')')
           .attr ('alignment-baseline', 'central')
           .attr('style', 'text-anchor:middle')
-          .attr ("font-size", "12px")
-          .attr ("fill", "black")
-          .attr ("font-family", "helvetica");
+          .attr ("font-size", 14)
+          .attr ("fill", "white")
+          .attr ("font-family", "'Montserrat', sans-serif");
 
           let totalWeekNum=0;
 
@@ -203,6 +235,10 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           // isTop3[sortedSongs[1].name]=2
           // isTop3[sortedSongs[2].name]=3
 
+          const opacityScale = d3.scaleLog()
+              .domain ([1, 50])
+              .range([0.2,1]);
+
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
             //const artistScale = d3.scaleOrdinal(d3.schemeCategory20);
@@ -215,7 +251,7 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
             .attr ("cx", cx)
             .attr("cy", cy)
             .attr("r", YScale(songWeekNum/2))
-            .attr('opacity',0.7)
+            .attr('opacity',opacityScale(songWeekNum))
             .style("fill",colors[WeekID%colors.length])
             if(songWeekNum >= 26||isTop3[songName]) {
               let wordlength = songName.length;
@@ -227,9 +263,9 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
             .attr ('y', cy)
             .attr ('alignment-baseline', 'central')
             .attr('style', 'text-anchor:middle')
-            .attr ("font-size", 14)
-            .attr ("fill", "black")
-            .attr ("font-family", "helvetica");
+            .attr ("font-size", 12)
+            .attr ("fill", "white")
+            .attr ("font-family", "'Montserrat', sans-serif");
             
           }
             totalWeekNum+=songWeekNum
