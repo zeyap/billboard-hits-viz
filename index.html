@@ -83,7 +83,7 @@
 
       let height = svg.attr("height");
       let width = svg.attr("width");
-      let margin = {top:20, right:20, bottom:20, left:20};
+      let margin = {top:20, right:20, bottom:20, left:30};
 
       let WGraph = width - margin.right - margin.left;
       let HGraph = height - margin.top - margin.bottom;
@@ -141,7 +141,7 @@
 
         const XScale = d3.scaleLinear()
           .domain ([minPeriodId, maxPeriodId+1])
-          .range ([0,WGraph]);
+          .range ([0,WGraph-40]);
 
 
         //draw axes for graph 1
@@ -158,16 +158,19 @@
           if(week==0)return '# Weeks';
           else return week
         })
-        .tickSize(-15,0)
+         .tickSize(-15,0)
+
+
 
         lower.append("g")
-        .attr("transform","translate("+ (margin.right) +","+ margin.top +")")
+        .attr("transform","translate("+ (0) +","+ margin.top +")")
         .attr('class','axis')
+        .style("font-size", 10)
         .call(left_y_axis);
 
         lower.append("g")
         .attr('class','axis')
-        .attr("transform","translate("+ (margin.left) +","+ margin.top +")")
+        .attr("transform","translate("+ (margin.left) +","+ (margin.top-10) +")")
         .call(left_x_axis);
 
         let favArtistsByWeek=[];
@@ -206,17 +209,17 @@
 
         favArtistsByWeek.forEach((d,WeekID) => {
           let cx = margin.left+XScale(WeekID)+ (WGraph/24);
-        
+
           let img = svg.append("image")
             .attr("xlink:href","/static/photos/"+ artistsPics[WeekID])
             .attr('x',0)
             .attr('y',0)
             .attr('height',50)
             .attr('width',50)
-            .attr('transform','translate('+cx+','+10+')')
+            .attr('transform','translate('+(cx+10)+','+10+')')
             svg.append("text")
             .text(artistNames[WeekID])
-            .attr('transform','translate('+(cx+margin.left)+','+70+')')
+            .attr('transform','translate('+(cx+margin.left+10)+','+70+')')
             .attr ('alignment-baseline', 'central')
             .attr('style', 'text-anchor:middle')
             .attr ("font-size", 14)
