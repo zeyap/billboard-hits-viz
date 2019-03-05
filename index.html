@@ -145,14 +145,14 @@
 
 
         //draw axes for graph 1
-        var left_x_axis = d3.axisTop(XScale)
+        var lower_x_axis = d3.axisTop(XScale)
         .ticks(15)
         .tickFormat(id=>{
           let startyear = minYear+5*id;
           return startyear>latestYear?latestYear:startyear
         }).tickSize(0,0);
 
-        var left_y_axis = d3.axisLeft(YScale)
+        var lower_y_axis = d3.axisLeft(YScale)
         .ticks(maxPeriodId-minPeriodId+1)
         .tickFormat(week=>{
           if(week==0)return '# Weeks';
@@ -166,14 +166,14 @@
         .attr("transform","translate("+ (0) +","+ margin.top +")")
         .attr('class','axis')
         .style("font-size", 10)
-        .call(left_y_axis);
+        .call(lower_y_axis);
 
         lower.append("g")
         .attr('class','axis')
         .attr("transform","translate("+ (margin.left) +","+ (margin.top-10) +")")
-        .call(left_x_axis);
+        .call(lower_x_axis);
 
-        let favArtistsByWeek=[];
+        let favArtistsBy5Years=[];
         //data organization for left graph
         dataBy5Years.forEach ( (arr,i) => {
           let artist;
@@ -197,17 +197,16 @@
               favArtist.name = name;
             }
           }
-          favArtistsByWeek.push(favArtist);
+          favArtistsBy5Years.push(favArtist);
 
         })
-        // console.log(favArtistsByWeek);
 
         const colors = ['#5fad4c','#ead38c','#b302e0','#0aa5ff', '#ffff08','#ff08d9','#c45a21','#336684', '#32ff00', '#ff7f00 ', '#ff0000', '#ffa8ca', '#ffa8ca'];
         // const colors = ['#24A28E','#2AA4AA','#3290B1','#397DB8', '#416ABF','#4957C6','#5D52CC','#7F5BD1', '#9F66D7', '#BD72DC', '#D97DE1', '#E589D7', '#E994C9'];
 
         // const colors=['#C85AB4','#0D24DE','#24D3ED','#E5B0D9'];
 
-        favArtistsByWeek.forEach((d,WeekID) => {
+        favArtistsBy5Years.forEach((d,WeekID) => {
           let cx = margin.left+XScale(WeekID)+ (WGraph/24);
 
           let img = svg.append("image")
