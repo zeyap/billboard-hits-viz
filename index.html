@@ -236,8 +236,8 @@ artistNames=["Connie Francis", "The Beatles", "James Brown", "Gladys Knight", "D
           // isTop3[sortedSongs[2].name]=3
 
           const opacityScale = d3.scaleLog()
-              .domain ([5, 50])
-              .range([0.3,0.8]);
+              .domain ([1, 50])
+              .range([0.2,1]);
 
           for(let songName in d.songs ){
             let songWeekNum = d.songs[songName]
