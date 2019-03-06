@@ -109,7 +109,7 @@
         var dataByYear = [];
         var dataByPerformers = {};
         var dataBy5Years = [];
-        let latestYear = 1;
+        let latestYearInData =1;
         let minYear = 2019;
         let maxRank = 1;
 
@@ -117,7 +117,7 @@
         data.forEach(elem=>{
             let year = parseInt(elem.WeekID.split('/')[2]);
             minYear = Math.min(minYear, year);
-            latestYear = Math.max(latestYear,year);
+            latestYearInData = Math.max(latestYearInData,year);
             dataByYear[year] = dataByYear[year]||[];
             dataByYear[year].push(elem);
 
@@ -126,6 +126,8 @@
             dataByPerformers[elem.Performer][year].push(elem);
             maxRank = Math.max(maxRank,elem["Week Position"]);
         });
+        let latestYear = latestYearInData+((latestYearInData-minYear+1)%5?1:0);
+        
 
         //data by 5 year
         let minPeriodId=Infinity, maxPeriodId=-1;
@@ -176,7 +178,7 @@
             .range([HGraph*2/3,0]);
 
           const XScale = d3.scaleLinear()
-            .domain ([minPeriodId, maxPeriodId])
+            .domain ([minPeriodId, maxPeriodId+1])
             .range ([0,WGraph-40]);
 
           //draw axes for graph 1
@@ -292,7 +294,7 @@
             .range([0,HGraph*1/3]);
 
           const XScale = d3.scaleLinear()
-            .domain ([minYear, latestYear])
+            .domain ([minYear, (latestYear===latestYearInData?latestYear:latestYearInData+5-(latestYear-latestYearInData))])
             .range ([0,WGraph-40]);
 
           //draw axes for graph 1
